@@ -9,7 +9,7 @@ let currentPlayer = "X";
 let gameActive = true;
 let playerScore = 0;
 let aiScore = 0;
-let timeLeft = 30; // secondes
+let timeLeft = 9999999999999999999999999999999999999999999999999; // secondes
 let timerInterval;
 
 const winningConditions = [
@@ -91,6 +91,11 @@ function checkWinner(player) {
     for (let condition of winningConditions) {
         const [a, b, c] = condition;
         if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+            // Ajouter la classe winner-cell aux cases gagnantes
+            cells[a].classList.add('winner-cell');
+            cells[b].classList.add('winner-cell');
+            cells[c].classList.add('winner-cell');
+
             gameActive = false;
             statusText.textContent = `${player} a gagné !`;
             updateScore(player);
@@ -119,12 +124,15 @@ function updateScore(winner) {
 // Réinitialisation du jeu
 resetButton.addEventListener('click', () => {
     board.fill("");
-    cells.forEach(cell => cell.textContent = "");
+    cells.forEach(cell => {
+        cell.textContent = "";
+        cell.classList.remove('winner-cell'); // Retirer la surbrillance
+    });
     gameActive = true;
     currentPlayer = "X";
     statusText.textContent = "";
     stopTimer();
-    startTimer(); // Relancer le timer dès le début
+    startTimer();
 });
 
 // Changement de thème
