@@ -22,6 +22,31 @@ const winningConditions = [
     [0, 4, 8], [2, 4, 6]
 ];
 
+// Ouverture des liens sociaux
+document.getElementById('socialButton').addEventListener('click', function() {
+    Swal.fire({
+        title: 'Connectez-vous avec moi!',
+        html: `
+            <a href="https://github.com/NoeMarchal" target="_blank" style="color: #0ff; font-size: 1.2em; text-decoration: none;">GitHub</a><br>
+            <a href="https://www.instagram.com/noe__marchal" target="_blank" style="color: #0ff; font-size: 1.2em; text-decoration: none;">Instagram</a><br>
+            <a href="https://fr.linkedin.com/in/no%C3%A9-marchal-21221a27b" target="_blank" style="color: #0ff; font-size: 1.2em; text-decoration: none;">LinkedIn</a>
+        `,
+        background: 'rgba(0, 0, 0, 0.9)',
+        color: '#0ff',
+        confirmButtonText: 'Fermer',
+        confirmButtonColor: '#0ff',
+        customClass: {
+            popup: 'custom-swal-popup'
+        }
+    });
+});
+
+// Changement de thème
+document.getElementById('toggleTheme').addEventListener('click', function() {
+    document.body.classList.toggle('dark');
+    document.body.classList.toggle('light');
+});
+
 // Fonction de démarrage du timer
 function startTimer() {
     timeLeft = 30;
@@ -269,31 +294,6 @@ startTimer();
 
 // Écouteurs d'événements pour les cases
 cells.forEach(cell => cell.addEventListener('click', handleClick));
-
-// Ouverture des liens sociaux
-document.getElementById('socialButton').addEventListener('click', function() {
-    Swal.fire({
-        title: 'Connectez-vous avec moi!',
-        html: `
-            <a href="https://github.com/NoeMarchal" target="_blank" style="color: #0ff; font-size: 1.2em; text-decoration: none;">GitHub</a><br>
-            <a href="https://www.instagram.com/noe__marchal" target="_blank" style="color: #0ff; font-size: 1.2em; text-decoration: none;">Instagram</a><br>
-            <a href="https://fr.linkedin.com/in/no%C3%A9-marchal-21221a27b" target="_blank" style="color: #0ff; font-size: 1.2em; text-decoration: none;">LinkedIn</a>
-        `,
-        background: 'rgba(0, 0, 0, 0.9)',
-        color: '#0ff',
-        confirmButtonText: 'Fermer',
-        confirmButtonColor: '#0ff',
-        customClass: {
-            popup: 'custom-swal-popup'
-        }
-    });
-});
-
-// Changement de thème
-document.getElementById('toggleTheme').addEventListener('click', function() {
-    document.body.classList.toggle('dark');
-    document.body.classList.toggle('light');
-});
 
 // Initialiser l'affichage de la difficulté
 updateDifficultyDisplay();
