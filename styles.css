@@ -155,7 +155,7 @@ body::before {
     top: 20px;
     left: 20px;
     padding: 15px 30px;
-    font-size: 1.2em;
+    font-size: 1em;
     background: #0ff;
     border: none;
     cursor: pointer;
@@ -197,4 +197,84 @@ body.light {
     0% { box-shadow: 0 0 10px #0ff; }
     50% { box-shadow: 0 0 30px #0ff, 0 0 60px #00f; }
     100% { box-shadow: 0 0 10px #0ff; }
+}
+/* Corrige le problème de scroll sur mobile */
+body {
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Ajustement sur tablette */
+@media (max-width: 768px) {
+    .game-container {
+        max-width: 90%;
+        padding: 15px;
+    }
+
+    .scoreboard {
+        font-size: 1.4em;
+        gap: 20px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(3, 80px);
+    }
+
+    .cell {
+        width: 80px;
+        height: 80px;
+        font-size: 1.5em;
+    }
+
+    /* Réduction du bouton Toggle Mode */
+    #toggleTheme, #socialButton {
+        font-size: 0.6em;
+        padding: 6px 12px;
+        top: 10px;
+    }
+}
+
+/* Ajustement sur mobile */
+@media (max-width: 480px) {
+    /* Assure que la page occupe toute la hauteur sans scroll */
+    html, body {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+    }
+
+    .grid {
+        grid-template-columns: repeat(3, 65px);
+    }
+
+    .cell {
+        width: 65px;
+        height: 65px;
+        font-size: 1.2em;
+    }
+
+    .scoreboard {
+        font-size: 1.2em;
+    }
+
+    /* Réduction supplémentaire du bouton Toggle Mode */
+    .toggleTheme{
+        width: 10%;
+        padding: 4px 8px;
+    }
+}
+
+/* Sur très petits écrans, suppression des boutons */
+@media (max-width: 400px) {
+    #toggleTheme, #socialButton {
+        display: none;
+    }
 }
