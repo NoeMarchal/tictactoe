@@ -182,7 +182,7 @@ body.dark {
 
 body.light {
     background: linear-gradient(45deg, #f0f0f0, #d0d0d0, #c0c0c0);
-    color: #000;
+    color: 0 0 15px #0ff, 0 0 30px #00f;
 }
 
 /* Effet de surbrillance pour les cases gagnantes */

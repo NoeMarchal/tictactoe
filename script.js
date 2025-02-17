@@ -20,7 +20,7 @@ const winningConditions = [
 
 // Fonction de démarrage du timer
 function startTimer() {
-    timeLeft = 30;
+    timeLeft = 9999999999999999999999999999999999999999999999999;
     timerInterval = setInterval(() => {
         timeLeft--;
         if (timeLeft <= 0) {
