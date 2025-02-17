@@ -14,6 +14,7 @@ let timeLeft = 30; // Temps en secondes pour chaque tour
 let timerInterval;
 let difficultyLevel = 1; // Niveau de difficulté initial
 let playerWins = 0; // Compteur de victoires du joueur
+let difficultyPoints = 0; // Points pour gérer la difficulté progressive
 
 const winningConditions = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -82,8 +83,12 @@ function robotMove() {
         // Niveau 1 : Mouvement aléatoire
         move = availableCells[Math.floor(Math.random() * availableCells.length)];
     } else if (difficultyLevel === 2) {
-        // Niveau 2 : Essaye de gagner ou de bloquer le joueur
-        move = getWinningMove("O") || getWinningMove("X") || availableCells[Math.floor(Math.random() * availableCells.length)];
+        // Niveau 2 : 50% de chance de faire un mouvement intelligent, sinon aléatoire
+        if (Math.random() < 0.5) {
+            move = getWinningMove("O") || getWinningMove("X") || availableCells[Math.floor(Math.random() * availableCells.length)];
+        } else {
+            move = availableCells[Math.floor(Math.random() * availableCells.length)];
+        }
     } else if (difficultyLevel === 3) {
         // Niveau 3 : Utilise un algorithme plus avancé (minimax simplifié)
         move = getBestMove();
@@ -127,15 +132,17 @@ function updateScore(winner) {
     if (winner === "X") {
         playerScore++;
         playerScoreText.textContent = playerScore;
-        playerWins++; // Incrémenter le compteur de victoires du joueur
-        if (playerWins >= 1) { // Augmenter la difficulté après 2 victoires du joueur
+        difficultyPoints += 1; // Ajouter un point de difficulté
+
+        // Augmenter la difficulté après un certain nombre de points
+        if (difficultyPoints >= 2) { // Augmenter la difficulté après 2 points
             increaseDifficulty();
-            playerWins = 0; // Réinitialiser le compteur
+            difficultyPoints = 0; // Réinitialiser les points
         }
     } else if (winner === "O") {
         aiScore++;
         aiScoreText.textContent = aiScore;
-        playerWins = 0; // Réinitialiser le compteur si l'IA gagne
+        difficultyPoints = Math.max(0, difficultyPoints - 1); // Réduire les points si l'IA gagne
         decreaseDifficulty(); // Réduire la difficulté si l'IA gagne
     }
 }
@@ -257,29 +264,6 @@ function checkWinnerMinimax(board) {
     return null;
 }
 
-// Ouverture des liens sociaux
-document.getElementById('socialButton').addEventListener('click', function() {
-    Swal.fire({
-        title: 'Connectez-vous avec moi!',
-        html: `
-            <a href="https://github.com/NoeMarchal" target="_blank" style="color: #0ff; font-size: 1.2em; text-decoration: none;">GitHub</a><br>
-            <a href="https://www.instagram.com/noe__marchal" target="_blank" style="color: #0ff; font-size: 1.2em; text-decoration: none;">Instagram</a><br>
-            <a href="https://fr.linkedin.com/in/no%C3%A9-marchal-21221a27b" target="_blank" style="color: #0ff; font-size: 1.2em; text-decoration: none;">LinkedIn</a>
-        `,
-        background: 'rgba(0, 0, 0, 0.9)',
-        color: '#0ff',
-        confirmButtonText: 'Fermer',
-        confirmButtonColor: '#0ff',
-        customClass: {
-            popup: 'custom-swal-popup'
-        }
-    });
-});
-// Changement de thème
-document.getElementById('toggleTheme').addEventListener('click', function() {
-    document.body.classList.toggle('dark');
-    document.body.classList.toggle('light');
-});
 // Démarrer le timer dès le début du jeu
 startTimer();
 
@@ -287,3 +271,4 @@ startTimer();
 cells.forEach(cell => cell.addEventListener('click', handleClick));
 
 // Initialiser l'affichage de la difficulté
+updateDifficultyDisplay();
