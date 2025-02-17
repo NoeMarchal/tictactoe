@@ -55,7 +55,6 @@ function handleClick(e) {
 
     board[index] = currentPlayer;
     e.target.textContent = currentPlayer;
-    clickSound.play();
     
     if (checkWinner(currentPlayer)) return;
 
@@ -78,7 +77,6 @@ function robotMove() {
     let randomIndex = availableCells[Math.floor(Math.random() * availableCells.length)];
     board[randomIndex] = "O";
     cells[randomIndex].textContent = "O";
-    clickSound.play();
 
     checkWinner("O");
     currentPlayer = "X"; // Tour du joueur
