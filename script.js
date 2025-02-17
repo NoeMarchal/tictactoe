@@ -156,7 +156,7 @@ resetButton.addEventListener('click', () => {
 
 // Augmenter la difficulté
 function increaseDifficulty() {
-    if (difficultyLevel < 3) { // Supposons que nous avons 3 niveaux de difficulté
+    if (difficultyLevel < 1) { // Supposons que nous avons 3 niveaux de difficulté
         difficultyLevel++;
         updateDifficultyDisplay();
         statusText.textContent = `Niveau de difficulté augmenté : Niveau ${difficultyLevel}`;
