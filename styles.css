@@ -272,9 +272,3 @@ body {
     }
 }
 
-/* Sur très petits écrans, suppression des boutons */
-@media (max-width: 400px) {
-    #toggleTheme, #socialButton {
-        display: none;
-    }
-}
