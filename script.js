@@ -128,7 +128,7 @@ function updateScore(winner) {
         playerScore++;
         playerScoreText.textContent = playerScore;
         playerWins++; // Incrémenter le compteur de victoires du joueur
-        if (playerWins >= 2) { // Augmenter la difficulté après 2 victoires du joueur
+        if (playerWins >= 1) { // Augmenter la difficulté après 2 victoires du joueur
             increaseDifficulty();
             playerWins = 0; // Réinitialiser le compteur
         }
@@ -156,7 +156,7 @@ resetButton.addEventListener('click', () => {
 
 // Augmenter la difficulté
 function increaseDifficulty() {
-    if (difficultyLevel < 1) { // Supposons que nous avons 3 niveaux de difficulté
+    if (difficultyLevel < 3) { // Supposons que nous avons 3 niveaux de difficulté
         difficultyLevel++;
         updateDifficultyDisplay();
         statusText.textContent = `Niveau de difficulté augmenté : Niveau ${difficultyLevel}`;
@@ -257,9 +257,6 @@ function checkWinnerMinimax(board) {
     return null;
 }
 
-// Démarrer le timer dès le début du jeu
-startTimer();
-
 // Ouverture des liens sociaux
 document.getElementById('socialButton').addEventListener('click', function() {
     Swal.fire({
@@ -278,15 +275,15 @@ document.getElementById('socialButton').addEventListener('click', function() {
         }
     });
 });
-
 // Changement de thème
 document.getElementById('toggleTheme').addEventListener('click', function() {
     document.body.classList.toggle('dark');
     document.body.classList.toggle('light');
 });
+// Démarrer le timer dès le début du jeu
+startTimer();
 
 // Écouteurs d'événements pour les cases
 cells.forEach(cell => cell.addEventListener('click', handleClick));
 
 // Initialiser l'affichage de la difficulté
-updateDifficultyDisplay();
