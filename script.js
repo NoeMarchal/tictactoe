@@ -4,6 +4,10 @@ const resetButton = document.getElementById('reset');
 const playerScoreText = document.getElementById('playerScore');
 const aiScoreText = document.getElementById('aiScore');
 const difficultyText = document.getElementById('difficulty');
+const clickSound = document.getElementById('clickSound');
+const winSound = document.getElementById('winSound');
+const loseSound = document.getElementById('loseSound');
+const drawSound = document.getElementById('drawSound');
 
 let board = ["", "", "", "", "", "", "", "", ""];
 let currentPlayer = "X";
@@ -85,6 +89,9 @@ function handleClick(e) {
     board[index] = currentPlayer;
     e.target.textContent = currentPlayer;
 
+    // Jouer le son du clic
+    clickSound.play();
+
     if (checkWinner(currentPlayer)) return;
 
     stopTimer();
@@ -140,6 +147,14 @@ function checkWinner(player) {
 
             gameActive = false;
             statusText.textContent = `${player} a gagné !`;
+
+            // Jouer le son de victoire ou de défaite
+            if (player === "X") {
+                winSound.play();
+            } else if (player === "O") {
+                loseSound.play();
+            }
+
             updateScore(player);
             return true;
         }
@@ -148,6 +163,8 @@ function checkWinner(player) {
     if (!board.includes("")) {
         gameActive = false;
         statusText.textContent = "Match nul !";
+        // Jouer le son de match nul
+        drawSound.play();
     }
     return false;
 }
