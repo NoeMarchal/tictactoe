@@ -14,7 +14,7 @@ let currentPlayer = "X";
 let gameActive = true;
 let playerScore = 0;
 let aiScore = 0;
-let timeLeft = 30; // Temps en secondes pour chaque tour
+let timeLeft = 99999999; // Temps en secondes pour chaque tour
 let timerInterval;
 let difficultyLevel = 1; // Niveau de difficulté initial
 let playerWins = 0; // Compteur de victoires du joueur
@@ -53,7 +53,7 @@ document.getElementById('toggleTheme').addEventListener('click', function() {
 
 // Fonction de démarrage du timer
 function startTimer() {
-    timeLeft = 30;
+    timeLeft = 99999999;
     timerInterval = setInterval(() => {
         timeLeft--;
         if (timeLeft <= 0) {
