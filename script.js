@@ -45,6 +45,39 @@ document.getElementById('socialButton').addEventListener('click', function() {
     });
 });
 
+// Ajouter un écouteur d'événements pour le bouton Statistiques
+document.getElementById('statsButton').addEventListener('click', showStats);
+
+// Fonction pour afficher les statistiques
+function showStats() {
+    const totalGames = playerScore + aiScore + (playerScore === 0 && aiScore === 0 ? 0 : 1); // Total des parties jouées
+    const winPercentage = totalGames === 0 ? 0 : Math.round((playerScore / totalGames) * 100); // Pourcentage de parties gagnées (arrondi)
+    const losePercentage = totalGames === 0 ? 0 : Math.round((aiScore / totalGames) * 100); // Pourcentage de parties perdues (arrondi)
+    const drawPercentage = totalGames === 0 ? 0 : Math.round(((totalGames - playerScore - aiScore) / totalGames) * 100); // Pourcentage de matchs nuls (arrondi)
+    const beatIAPercentage = totalGames === 0 ? 0 : Math.round((playerScore / (playerScore + aiScore)) * 100); // Pourcentage de battre l'IA (arrondi)
+
+    Swal.fire({
+        title: 'Statistiques du Joueur',
+        html: `
+            <p>Nombre total de matchs joués: ${totalGames}</p>
+            <p>Parties gagnées: ${playerScore}</p>
+            <p>Parties perdues: ${aiScore}</p>
+            <p>Matchs nuls: ${totalGames - playerScore - aiScore}</p>
+            <p>Pourcentage de parties gagnées: ${winPercentage}%</p>
+            <p>Pourcentage de parties perdues: ${losePercentage}%</p>
+            <p>Pourcentage de matchs nuls: ${drawPercentage}%</p>
+            <p>Pourcentage de battre l'IA: ${beatIAPercentage}%</p>
+        `,
+        background: 'rgba(0, 0, 0, 0.9)',
+        color: '#0ff',
+        confirmButtonText: 'Fermer',
+        confirmButtonColor: '#0ff',
+        customClass: {
+            popup: 'custom-swal-popup'
+        }
+    });
+}
+
 // Changement de thème
 document.getElementById('toggleTheme').addEventListener('click', function() {
     document.body.classList.toggle('dark');
@@ -96,7 +129,7 @@ function handleClick(e) {
 
     stopTimer();
     currentPlayer = "O"; // Tour de l'IA
-    setTimeout(robotMove, 500);
+    setTimeout(robotMove, 1500);
     startTimer(); // Relancer le timer pour l'IA
 }
 
@@ -126,6 +159,9 @@ function robotMove() {
         move = getBestMove();
     }
 
+    // Jouer le son du clic
+    clickSound.play();
+    
     board[move] = "O";
     cells[move].textContent = "O";
 

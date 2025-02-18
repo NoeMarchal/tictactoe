@@ -210,6 +210,33 @@ body {
     align-items: center;
 }
 
+/* ... (votre CSS existant) */
+
+#statsButton {
+    position: fixed;
+    top: 20px;
+    left: 120px; /* Placement actuel */
+    padding: 15px 30px;
+    font-size: 1em;
+    background: #0ff;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 5px;
+    box-shadow: 0 0 50px #0ff, 0 0 100px #00f;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px #0ff, 0 0 30px #00f;
+    animation: pulsate 1s infinite alternate;
+    z-index: 10;
+}
+
+#statsButton:hover {
+    background: #fff;
+    color: #000;
+    box-shadow: 0 0 60px #0ff, 0 0 120px #00f;
+}
+
 /* Ajustement sur tablette */
 @media (max-width: 768px) {
     .game-container {
@@ -232,11 +259,15 @@ body {
         font-size: 1.5em;
     }
 
-    /* Réduction du bouton Toggle Mode */
-    #toggleTheme, #socialButton {
-        font-size: 0.6em;
-        padding: 6px 12px;
+    /* Réduction des boutons Toggle Theme, Stats et Social */
+    #toggleTheme, #statsButton, #socialButton {
+        font-size: 0.8em;
+        padding: 10px 20px;
         top: 10px;
+    }
+
+    #statsButton {
+        left: 100px; /* Ajustez la position pour les écrans plus petits */
     }
 }
 
@@ -265,10 +296,14 @@ body {
         font-size: 1.2em;
     }
 
-    /* Réduction supplémentaire du bouton Toggle Mode */
-    .toggleTheme{
-        width: 10%;
-        padding: 4px 8px;
+    /* Réduction supplémentaire des boutons Toggle Theme, Stats et Social */
+    #toggleTheme, #statsButton, #socialButton {
+        font-size: 0.6em;
+        padding: 6px 12px;
+        top: 10px;
+    }
+
+    #statsButton {
+        left: 70px; /* Ajustez la position pour les écrans mobiles */
     }
 }
-
