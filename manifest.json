@@ -3,7 +3,7 @@
     "short_name": "Tic-Tac-Toe",
     "icons": [
       {
-        "src": "images/BACK.webp",
+        "src": "BACK.webp",
         "sizes": "512x512",
         "type": "image/png"
       }
