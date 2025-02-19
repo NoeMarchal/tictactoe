@@ -20,12 +20,23 @@ let difficultyLevel = 1; // Niveau de difficulté initial
 let playerWins = 0; // Compteur de victoires du joueur
 let difficultyPoints = 0; // Points pour gérer la difficulté progressive
 let drawCount = 0; // Ajouter un compteur pour les matchs nuls
+let isSoundPlaying = false; // Variable pour suivre si le son est en cours de lecture
+let totalGameTime = 0; // Temps total de jeu en secondes
 
 const winningConditions = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8],
     [0, 3, 6], [1, 4, 7], [2, 5, 8],
     [0, 4, 8], [2, 4, 6]
 ];
+
+// Fonction pour jouer un son et mettre à jour l'indicateur
+function playSound(sound) {
+    isSoundPlaying = true;
+    sound.play();
+    sound.onended = () => {
+        isSoundPlaying = false;
+    };
+}
 
 // Ouverture des liens sociaux
 document.getElementById('socialButton').addEventListener('click', function() {
@@ -64,6 +75,7 @@ function showStats() {
             <p>Matchs nuls: ${drawCount}</p>
             <p>Pourcentage de parties gagnées: ${winPercentage}%</p>
             <p>Pourcentage de parties perdues: ${losePercentage}%</p>
+            <p>Temps de jeu total: ${formatTime(totalGameTime)}</p>
         `,
         background: 'rgba(0, 0, 0, 0.9)',
         color: '#0ff',
@@ -81,17 +93,31 @@ document.getElementById('toggleTheme').addEventListener('click', function() {
     document.body.classList.toggle('light');
 });
 
-// Fonction de démarrage du timer
 function startTimer() {
-    timeLeft = 99999999;
+    timeLeft = 45; // Réinitialiser le temps pour chaque tour
     timerInterval = setInterval(() => {
         timeLeft--;
-        if (timeLeft <= 45) {
+        totalGameTime++; // Ajouter 1 seconde au temps total de jeu
+        if (timeLeft <= 0) {
             clearInterval(timerInterval);
             endTurn();
         }
     }, 1000);
 }
+
+function formatTime(totalSeconds) {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+// Mettre à jour le temps total de jeu toutes les secondes
+setInterval(() => {
+    if (gameActive) { // Mettre à jour uniquement si le jeu est actif
+        totalGameTime++; // Incrémenter le temps total
+    }
+}, 1000);
 
 // Arrêter le timer
 function stopTimer() {
@@ -111,7 +137,7 @@ function endTurn() {
 
 // Gestion de chaque clic sur les cases
 function handleClick(e) {
-    if (!gameActive) return;
+    if (!gameActive || isSoundPlaying) return; // Empêcher le joueur de jouer si le son est en cours
 
     const index = e.target.dataset.index;
     if (board[index] !== "" || !gameActive) return;
@@ -120,7 +146,7 @@ function handleClick(e) {
     e.target.textContent = currentPlayer;
 
     // Jouer le son du clic
-    clickSound.play();
+    playSound(clickSound);
 
     if (checkWinner(currentPlayer)) return;
 
@@ -157,7 +183,7 @@ function robotMove() {
     }
 
     // Jouer le son du clic
-    clickSound.play();
+    playSound(clickSound);
     
     board[move] = "O";
     cells[move].textContent = "O";
