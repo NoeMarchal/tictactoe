@@ -14,11 +14,12 @@ let currentPlayer = "X";
 let gameActive = true;
 let playerScore = 0;
 let aiScore = 0;
-let timeLeft = 99999999; // Temps en secondes pour chaque tour
+let timeLeft = 45; // Temps en secondes pour chaque tour
 let timerInterval;
 let difficultyLevel = 1; // Niveau de difficulté initial
 let playerWins = 0; // Compteur de victoires du joueur
 let difficultyPoints = 0; // Points pour gérer la difficulté progressive
+let drawCount = 0; // Ajouter un compteur pour les matchs nuls
 
 const winningConditions = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -50,7 +51,7 @@ document.getElementById('statsButton').addEventListener('click', showStats);
 
 // Fonction pour afficher les statistiques
 function showStats() {
-    const totalGames = playerScore + aiScore + (playerScore === 0 && aiScore === 0 ? 0 : 1); // Total des parties jouées
+    const totalGames = playerScore + aiScore + drawCount; // Total des parties jouées
     const winPercentage = totalGames === 0 ? 0 : Math.round((playerScore / totalGames) * 100); // Pourcentage de parties gagnées (arrondi)
     const losePercentage = totalGames === 0 ? 0 : Math.round((aiScore / totalGames) * 100); // Pourcentage de parties perdues (arrondi)
 
@@ -60,7 +61,7 @@ function showStats() {
             <p>Nombre total de matchs joués: ${totalGames}</p>
             <p>Parties gagnées: ${playerScore}</p>
             <p>Parties perdues: ${aiScore}</p>
-            <p>Matchs nuls: ${totalGames - playerScore - aiScore}</p>
+            <p>Matchs nuls: ${drawCount}</p>
             <p>Pourcentage de parties gagnées: ${winPercentage}%</p>
             <p>Pourcentage de parties perdues: ${losePercentage}%</p>
         `,
@@ -85,7 +86,7 @@ function startTimer() {
     timeLeft = 99999999;
     timerInterval = setInterval(() => {
         timeLeft--;
-        if (timeLeft <= 0) {
+        if (timeLeft <= 45) {
             clearInterval(timerInterval);
             endTurn();
         }
@@ -172,7 +173,6 @@ function checkWinner(player) {
     for (let condition of winningConditions) {
         const [a, b, c] = condition;
         if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-            // Ajouter la classe winner-cell aux cases gagnantes
             cells[a].classList.add('winner-cell');
             cells[b].classList.add('winner-cell');
             cells[c].classList.add('winner-cell');
@@ -180,7 +180,6 @@ function checkWinner(player) {
             gameActive = false;
             statusText.textContent = `${player} a gagné !`;
 
-            // Jouer le son de victoire ou de défaite
             if (player === "X") {
                 winSound.play();
             } else if (player === "O") {
@@ -195,11 +194,12 @@ function checkWinner(player) {
     if (!board.includes("")) {
         gameActive = false;
         statusText.textContent = "Match nul !";
-        // Jouer le son de match nul
         drawSound.play();
+        drawCount++; // Incrémenter le compteur de matchs nuls
     }
     return false;
 }
+
 
 // Mise à jour du score et de la difficulté
 function updateScore(winner) {
@@ -221,7 +221,6 @@ function updateScore(winner) {
     }
 }
 
-// Réinitialisation du jeu
 resetButton.addEventListener('click', () => {
     board.fill("");
     cells.forEach(cell => {
