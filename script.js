@@ -53,8 +53,6 @@ function showStats() {
     const totalGames = playerScore + aiScore + (playerScore === 0 && aiScore === 0 ? 0 : 1); // Total des parties jouées
     const winPercentage = totalGames === 0 ? 0 : Math.round((playerScore / totalGames) * 100); // Pourcentage de parties gagnées (arrondi)
     const losePercentage = totalGames === 0 ? 0 : Math.round((aiScore / totalGames) * 100); // Pourcentage de parties perdues (arrondi)
-    const drawPercentage = totalGames === 0 ? 0 : Math.round(((totalGames - playerScore - aiScore) / totalGames) * 100); // Pourcentage de matchs nuls (arrondi)
-    const beatIAPercentage = totalGames === 0 ? 0 : Math.round((playerScore / (playerScore + aiScore)) * 100); // Pourcentage de battre l'IA (arrondi)
 
     Swal.fire({
         title: 'Statistiques du Joueur',
@@ -65,8 +63,6 @@ function showStats() {
             <p>Matchs nuls: ${totalGames - playerScore - aiScore}</p>
             <p>Pourcentage de parties gagnées: ${winPercentage}%</p>
             <p>Pourcentage de parties perdues: ${losePercentage}%</p>
-            <p>Pourcentage de matchs nuls: ${drawPercentage}%</p>
-            <p>Pourcentage de battre l'IA: ${beatIAPercentage}%</p>
         `,
         background: 'rgba(0, 0, 0, 0.9)',
         color: '#0ff',
